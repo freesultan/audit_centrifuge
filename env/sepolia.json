@@ -1,0 +1,89 @@
+{
+  "network": {
+    "chainId": 11155111,
+    "environment": "testnet",
+    "centrifugeId": 1,
+    "connectsTo": [
+      "arbitrum-sepolia",
+      "base-sepolia"
+    ]
+  },
+  "adapters": {
+    "wormhole": {
+      "wormholeId": "10002",
+      "relayer": "0x7B1bD7a6b4E61c2a123AC6BC2cbfC614437D0470",
+      "deploy": true
+    },
+    "axelar": {
+      "axelarId": "ethereum-sepolia",
+      "gateway": "0xe432150cce91c13a887f7D836923d5597adD8E31",
+      "gasService": "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6",
+      "deploy": true
+    },
+    "layerZero": {
+      "endpoint": "0x6edce65403992e310a62460808c4b910d972f10f",
+      "layerZeroEid": 40161,
+      "deploy": true
+    }
+  },
+  "contracts": {
+    "root": "0x8DD4c47fD0018844457c53FC4e9578551b40a261",
+    "gasService": "0x18e142FCc0774A801Fb8769d6836D644CE83c187",
+    "gateway": "0x8a346ACd924ccD258779894Af6629FCEB68f01F1",
+    "multiAdapter": "0x2DdC2070b1F63774C02f3262F1d1B5d451315bF5",
+    "messageProcessor": "0x9d2D2e9c5c2F90924f12889b1aD2962D96F92a9c",
+    "messageDispatcher": "0xE3BA1052A9be15B675DA5dBd2df4114CBc75f43D",
+    "hubRegistry": "0xE4066895dEC891ff25080887626dC080D8Cb5e94",
+    "accounting": "0xacEeaAb044e80168A0aFe419Cd628fF62eDE60F8",
+    "holdings": "0x1B4040E99F9E27D22fD3ED8Ba03baDD651ADDBb6",
+    "shareClassManager": "0x9f2eff33B2723844c2f5fA056721a6e977Dd62aA",
+    "hub": "0x8535cc8E57e0AFb2b839C28bC7EfEAE477F8049C",
+    "identityValuation": "0x3fe229Edf4f2417aC1CEE87BA013779641FAa0A9",
+    "poolEscrowFactory": "0x930a3e26328fb9D7cB9dD81a12fc5F739c35057d",
+    "tokenRecoverer": "0x0F6d771aCA8983E77Dd874408a8a03873cf1dA39",
+    "routerEscrow": "0x6d8b00BBABDFB636393693C22155cc834E6D861c",
+    "globalEscrow": "0xAe38c74bD9C2D2835195493933B5fd31B0aE269D",
+    "freezeOnlyHook": "0xC376f60687FDF2F99316E872604734D01DB9543a",
+    "redemptionRestrictionsHook": "0x93CE7e739bDCd675b76EA04ed8c037c649057c92",
+    "fullRestrictionsHook": "0x089c9C5aCAF21408534f519522f4355434Ca5610",
+    "tokenFactory": "0xCA50Ac1B39f3f57eaA1df275592C4690d00a3D8a",
+    "asyncRequestManager": "0x08D1dD5723B0F7B02609b74dEF721a13d97b1d02",
+    "syncManager": "0xb215656e061fc41831dc459B24dAA5Ad7d51ee9A",
+    "asyncVaultFactory": "0x473B767198A743978aB14b864e46d4E6a4aB7A6e",
+    "syncDepositVaultFactory": "0xd8a1Ae9F6E1D44190AD65DE66D0D8cD82254dA36",
+    "spoke": "0x69db1054302612E5a13Cc77cD802ca482942D3b9",
+    "vaultRouter": "0x13452a150c2317200b295a6be96c844DF0D6e4e5",
+    "balanceSheet": "0x28B2F3DD3B5cDEe527BEF7BCcaFAD3e33bD93a77",
+    "wormholeAdapter": "0xBeE5118BF5d8e3Ff7c662dEB718655402F25f355",
+    "axelarAdapter": "0xa3E14fc1F945aC7B8c39e20fc7B95a007d6d0FBB",
+    "contractUpdater": "0x89448BE6a5E52f51135231066a2c6BF547289d30",
+    "onOfframpManagerFactory": "0xE238Fa8B49c4Fcb8203dd2a4777D2489e2666988",
+    "merkleProofManagerFactory": "0xa7c95a09D5B9aE4BC94EBa29a563e64237390a36",
+    "vaultDecoder": "0x72527Ccf83A3E9Ca00d94d600f3D6F2c5690B781",
+    "circleDecoder": "0x1D46C32DeA9cBCdC801B74a16054Aba58de08F80",
+    "vaultRegistry": "0xd7E21B988DC6396F78F0900A69af745ef86c12B5",
+    "hubHandler": "0x68244603f53be41c7c59AcEE76A850E6d2199D85",
+    "protocolGuardian": "0x7044908C830Dde350C0D9c1D3F53d5127Fd91eb1",
+    "opsGuardian": "0x19F16C4c265a6Afb341275d1560661A0E9eb4bdE",
+    "refundEscrowFactory": "0x7c31dDdc128faC0abc2cc0e5609904385a9B610d",
+    "freelyTransferableHook": "0x72E92af88300174A9430A761b03dA3961aa31dc0",
+    "queueManager": "0x30Fe322791F0dBfeff31DF76E02B0b327978e9Ed",
+    "batchRequestManager": "0xdcB4e0FB9f1c77CCaC17195973d137A5e2b6D0d2",
+    "oracleValuation": "0xCb01C0d165c8509f03e4f527Ba0CBc9000fE0F1d",
+    "navManager": "0xB388512a0A19fDc4654748375549CB0C9ee1B678",
+    "simplePriceManager": "0x9c4c6C4be4e78b6A949f9597A3e00136DC62C2bc",
+    "layerZeroAdapter": "0x250d750410b94d5B6d407D2b677cE9Ba5777eeFD"
+  },
+  "deploymentInfo": {
+    "deploy:protocol": {
+      "gitCommit": "f5ca86f8",
+      "timestamp": "2025-10-15T12:27:24Z",
+      "version": "v3.1.1"
+    },
+    "deploy:adapters": {
+      "gitCommit": "e54f27b1",
+      "timestamp": "2025-10-16T08:05:00Z",
+      "version": "v3.1.2"
+    }
+  }
+}

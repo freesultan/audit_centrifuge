@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+pragma solidity ^0.8.28;
+
+import {PoolId} from "../../../src/core/types/PoolId.sol";
+import {AssetId} from "../../../src/core/types/AssetId.sol";
+import {ShareClassId} from "../../../src/core/types/ShareClassId.sol";
+import {IHubRegistry} from "../../../src/core/hub/interfaces/IHubRegistry.sol";
+
+import {IdentityValuation} from "../../../src/valuations/IdentityValuation.sol";
+
+import "forge-std/Test.sol";
+
+PoolId constant POOL_A = PoolId.wrap(42);
+PoolId constant POOL_B = PoolId.wrap(43);
+ShareClassId constant SC_1 = ShareClassId.wrap(bytes16("1"));
+AssetId constant C6 = AssetId.wrap(6);
+AssetId constant C18 = AssetId.wrap(18);
+
+contract TestIdentityValuation is Test {
+    address hubRegistry = makeAddr("hubRegistry");
+    IdentityValuation valuation = new IdentityValuation(IHubRegistry(hubRegistry));
+
+    function setUp() public {
+        vm.mockCall(address(hubRegistry), abi.encodeWithSignature("decimals(uint128)", C6), abi.encode(6));
+        vm.mockCall(address(hubRegistry), abi.encodeWithSignature("decimals(uint128)", C18), abi.encode(18));
+        vm.mockCall(address(hubRegistry), abi.encodeWithSignature("decimals(uint64)", POOL_A), abi.encode(6));
+        vm.mockCall(address(hubRegistry), abi.encodeWithSignature("decimals(uint64)", POOL_B), abi.encode(18));
+    }
+
+    function testSameDecimals() public view {
+        assertEq(valuation.getQuote(POOL_A, SC_1, C6, 100 * 1e6), 100 * 1e6);
+    }
+
+    function testFromMoreDecimalsToLess() public view {
+        assertEq(valuation.getQuote(POOL_A, SC_1, C18, 100 * 1e18), 100 * 1e6);
+    }
+
+    function testFromLessDecimalsToMore() public view {
+        assertEq(valuation.getQuote(POOL_B, SC_1, C6, 100 * 1e6), 100 * 1e18);
+    }
+}
+
+contract TestIdentityValuationGetPrice is Test {
+    address hubRegistry = makeAddr("hubRegistry");
+    IdentityValuation valuation = new IdentityValuation(IHubRegistry(hubRegistry));
+
+    function testGetPriceReturnsOne() public view {
+        uint256 price = valuation.getPrice(POOL_A, SC_1, C6).raw();
+        assertEq(price, 1e18);
+    }
+
+    function testGetPriceAlwaysReturnsOne() public view {
+        // Test with different pool IDs, share class IDs, and asset IDs
+        assertEq(valuation.getPrice(POOL_A, SC_1, C6).raw(), 1e18);
+        assertEq(valuation.getPrice(POOL_B, SC_1, C18).raw(), 1e18);
+        assertEq(valuation.getPrice(POOL_A, SC_1, C18).raw(), 1e18);
+        assertEq(valuation.getPrice(POOL_B, SC_1, C6).raw(), 1e18);
+    }
+
+    function testGetPriceFuzz(uint64 poolId, bytes16 scId, uint128 assetId) public view {
+        uint256 price = valuation.getPrice(PoolId.wrap(poolId), ShareClassId.wrap(scId), AssetId.wrap(assetId)).raw();
+        assertEq(price, 1e18);
+    }
+}

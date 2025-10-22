@@ -1,0 +1,117 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib']
+
+solc_version = "0.8.28"
+evm_version = "cancun"
+
+optimizer = true
+optimizer_runs = 1
+verbosity = 3
+
+ffi = true
+fs_permissions = [
+  { access = "read-write", path = "./env/latest" },
+  { access = "read", path = "env" },
+  { access = "read-write", path = "snapshots" },
+]
+
+# {@see {@link https://github.com/foundry-rs/foundry/issues/4060} }
+auto_detect_remappings = false
+
+# Whether to store the referenced sources in the metadata as literal data. Helps with verification
+use_literal_content = true
+
+# The metadata hash is machine dependent. By default, this is set to none to allow for deterministic code.
+# {@see {@link https://docs.soliditylang.org/en/latest/metadata.html} }
+bytecode_hash = "none"
+cbor_metadata = false
+
+# Deployment specific settings
+gas_reports = ["*"]
+gas_reports_ignore = ["test/*", "script/*"]
+gas_snapshot_check = false
+
+# False-alarm warnings
+ignored_warnings_from = [
+  "src/misc/ReentrancyProtection.sol", # Issue: https://github.com/ethereum/solidity/issues/14359
+]
+
+dynamic_test_linking = true
+
+[profile.default.lint]
+severity = ["high"]
+exclude_lints = ["erc20-unchecked-transfer", "incorrect-shift"]
+
+[profile.default.fuzz]
+runs = 100
+max_test_rejects = 1_000_000 # Number of times `vm.assume` can fail
+
+[profile.default.invariant]
+runs = 10
+depth = 100
+call_override = false
+fail_on_revert = false
+
+[profile.ci.fuzz]
+runs = 1000
+max_test_rejects = 1_000_000 # Number of times `vm.assume` can fail
+
+[profile.ci.invariant]
+runs = 100
+depth = 1000
+call_override = false
+fail_on_revert = false
+
+[profile.ci-coverage]
+verbosity = 2
+no_match_coverage = "test/spoke/fuzzing/**/*.sol"
+
+[profile.ci-coverage.fuzz]
+runs = 512                # 2x of default
+max_test_rejects = 65_536 # default value
+
+[profile.smt.model_checker]
+engine = "chc" # constrained Horn clauses
+invariants = ["contract", "reentrancy"]
+show_unproved = true
+timeout = 100_000 # in milliseconds, per solving query
+targets = [
+  "assert",
+  "constantCondition",
+  "divByZero",
+  "outOfBounds",
+  "overflow",
+  "underflow",
+]
+
+[profile.smt.model_checker.contracts]
+  "src/vaults/AsyncVault.sol" = ["AsyncVault"]
+  "src/vaults/AsyncRequestManager.sol" = ["AsyncRequestManager"]
+  "src/vaults/SyncManager.sol" = ["SyncManager"]
+  "src/spoke/Spoke.sol" = ["Spoke"]
+  "src/spoke/Escrow.sol" = ["Escrow"]
+  "src/spoke/Root.sol" = ["Root"]
+  "src/spoke/ERC20.sol" = ["ERC20"]
+  "src/spoke/ShareToken.sol" = ["ShareToken"]
+  "src/spoke/FullRestrictions.sol" = ["FullRestrictions"]
+  "src/spoke/admin/Guardian.sol" = ["Guardian"]
+
+[doc]
+ignore = ["**/*.t.sol", "**/*.s.sol"]
+out = "docs"
+repository = "https://github.com/centrifuge/asset-pools"
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+int_types = "long"
+multiline_func_header = "attributes_first"
+quote_style = "double"
+number_underscore = "preserve"
+wrap_comments = false
+ignore = [
+  "test/*.sol"
+]
