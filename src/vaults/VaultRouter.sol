@@ -36,7 +36,7 @@ contract VaultRouter is Auth, BatchedMulticall, Recoverable, IVaultRouter {
     uint256 private constant REQUEST_ID = 0;
 
     ISpoke public immutable spoke;
-    IEscrow public immutable escrow;
+    IEscrow public immutable escrow; //@>>i tempoorary escrow?
     IVaultRegistry public immutable vaultRegistry;
 
     /// @inheritdoc IVaultRouter
